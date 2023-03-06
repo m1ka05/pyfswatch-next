@@ -1,9 +1,15 @@
 import ctypes
 import ctypes.util
 
-
-dll = ctypes.util.find_library("libfswatch")
-lib = ctypes.CDLL(dll)
+lib = None
+libnames = ["libfswatch", "fswatch"]
+for libname in libnames:
+    dll = ctypes.util.find_library(libname)
+    if dll is not None:
+        lib = ctypes.CDLL(dll)
+    
+if lib is None:
+    Exception("could not find fswatch library")
 
 
 fsw_init_library = lib.fsw_init_library
